@@ -5,9 +5,16 @@ import androidx.security.crypto.EncryptedSharedPreferences
 import androidx.security.crypto.MasterKey
 
 /**
+ * Android implementation of PlatformContext
+ */
+actual class PlatformContext(val context: Context)
+
+/**
  * Android implementation of SecureStorage using EncryptedSharedPreferences.
  */
-actual class PlatformSecureStorage(private val context: Context) : SecureStorage {
+actual class PlatformSecureStorage actual constructor(platformContext: PlatformContext) : SecureStorage {
+
+    private val context = platformContext.context
 
     private val masterKey = MasterKey.Builder(context)
         .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
@@ -21,19 +28,19 @@ actual class PlatformSecureStorage(private val context: Context) : SecureStorage
         EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
     )
 
-    actual override suspend fun put(key: String, value: String) {
+    override suspend fun put(key: String, value: String) {
         sharedPreferences.edit().putString(key, value).apply()
     }
 
-    actual override suspend fun get(key: String): String? {
+    override suspend fun get(key: String): String? {
         return sharedPreferences.getString(key, null)
     }
 
-    actual override suspend fun delete(key: String) {
+    override suspend fun delete(key: String) {
         sharedPreferences.edit().remove(key).apply()
     }
 
-    actual override suspend fun clear() {
+    override suspend fun clear() {
         sharedPreferences.edit().clear().apply()
     }
 }

@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.android.library)
     `maven-publish`
 }
 
@@ -9,10 +9,8 @@ version = "1.0.0"
 
 kotlin {
     androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "17"
-            }
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
         }
         publishLibraryVariants("release")
     }
@@ -34,10 +32,14 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
         }
         
-        commonTest.dependencies {
-            implementation(kotlin("test"))
+        val commonTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+                implementation(kotlin("test-common"))
+                implementation(kotlin("test-annotations-common"))
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+            }
         }
-
         androidMain.dependencies {
             implementation("androidx.security:security-crypto:1.1.0-alpha06") // EncryptedSharedPreferences
         }

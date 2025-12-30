@@ -3,13 +3,19 @@ package io.github.iml1s.storage
 import kotlinx.cinterop.*
 import platform.Foundation.*
 import platform.Security.*
+import platform.darwin.NSObject
+
+/**
+ * iOS implementation of PlatformContext (placeholder)
+ */
+actual class PlatformContext
 
 /**
  * iOS implementation of SecureStorage using Keychain Services.
  */
-actual class PlatformSecureStorage : SecureStorage {
+actual class PlatformSecureStorage actual constructor(platformContext: PlatformContext) : SecureStorage {
 
-    actual override suspend fun put(key: String, value: String) {
+    override suspend fun put(key: String, value: String) {
         val query = createQuery(key)
         
         // Convert string to NSData
@@ -19,9 +25,6 @@ actual class PlatformSecureStorage : SecureStorage {
         query[kSecValueData as String] = data!!
 
         // Attempt to add item
-        // kSecAttrAccount is the Key
-        // kSecClass is kSecClassGenericPassword
-        
         val status = SecItemAdd(query as CFDictionaryRef, null)
         
         if (status == errSecDuplicateItem) {
@@ -34,7 +37,7 @@ actual class PlatformSecureStorage : SecureStorage {
         }
     }
 
-    actual override suspend fun get(key: String): String? {
+    override suspend fun get(key: String): String? {
         val query = createQuery(key)
         query[kSecReturnData as String] = true
         query[kSecMatchLimit as String] = kSecMatchLimitOne
@@ -53,12 +56,12 @@ actual class PlatformSecureStorage : SecureStorage {
         return result
     }
 
-    actual override suspend fun delete(key: String) {
+    override suspend fun delete(key: String) {
         val query = createQuery(key)
         SecItemDelete(query as CFDictionaryRef)
     }
 
-    actual override suspend fun clear() {
+    override suspend fun clear() {
         // Clear all items for this app class
         val query = mutableMapOf<Any?, Any?>()
         query[kSecClass as String] = kSecClassGenericPassword

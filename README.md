@@ -26,7 +26,7 @@
 |----------|----------------|----------|
 | **Android** | `EncryptedSharedPreferences` | Android Keystore System (AES-256-GCM) |
 | **iOS** | `Keychain Services` | Secure Enclave / Keychain (AES-256) |
-| **JVM** | In-Memory (Placeholder) | **Not for production use** |
+| **JVM** | `AES-GCM Encrypted File` | AES-256-GCM (JDK Standard) |
 
 ---
 
@@ -64,4 +64,7 @@ storage.delete("master_key")
 
 - **Android**: Uses `MasterKey.KeyScheme.AES256_GCM` backed by Android Keystore.
 - **iOS**: Uses `kSecClassGenericPassword` with proper access control attributes.
+- **JVM (Windows/Desktop)**: Uses **AES-256-GCM** encryption. 
+  - Data stored in `~/.kotlin-crypto/secure_storage.dat`.
+  - Encryption key auto-generated in `~/.kotlin-crypto/.key` (protected by OS file permissions).
 - **Data Cleanup**: Always clear sensitive variables from memory after use when possible.

@@ -54,9 +54,9 @@ kotlin {
 
 android {
     namespace = "io.github.iml1s.storage"
-    compileSdk = libs.versions.compileSdk.get().toInt()
+    compileSdk = 35
     defaultConfig {
-        minSdk = libs.versions.minSdk.get().toInt()
+        minSdk = 26
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

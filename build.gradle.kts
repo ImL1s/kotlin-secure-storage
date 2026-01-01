@@ -20,7 +20,10 @@ kotlin {
     listOf(
         iosX64(),
         iosArm64(),
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
+        watchosArm64(),
+        watchosSimulatorArm64(),
+        watchosX64()
     ).forEach {
         it.binaries.framework {
             baseName = "securestorage"
@@ -28,8 +31,10 @@ kotlin {
     }
 
     sourceSets {
-        commonMain.dependencies {
-            implementation(libs.kotlinx.coroutines.core)
+        val commonMain by getting {
+            dependencies {
+                implementation(libs.kotlinx.coroutines.core)
+            }
         }
         
         val commonTest by getting {
@@ -43,6 +48,16 @@ kotlin {
         androidMain.dependencies {
             implementation("androidx.security:security-crypto:1.1.0-alpha06") // EncryptedSharedPreferences
         }
+
+        val iosMain by creating { dependsOn(commonMain) }
+        val iosX64Main by getting { dependsOn(iosMain) }
+        val iosArm64Main by getting { dependsOn(iosMain) }
+        val iosSimulatorArm64Main by getting { dependsOn(iosMain) }
+
+        val watchosMain by creating { dependsOn(commonMain) }
+        val watchosArm64Main by getting { dependsOn(watchosMain) }
+        val watchosX64Main by getting { dependsOn(watchosMain) }
+        val watchosSimulatorArm64Main by getting { dependsOn(watchosMain) }
 
         iosMain.dependencies {
             // Keychain access usually requires native interop or a wrapper. 

@@ -6,9 +6,16 @@ on:
   pull_request:
     branches: [ "main", "dev", "master" ]
 
+permissions:
+  contents: read
+  packages: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_ACTOR: ${{ github.actor }}
     steps:
     - uses: actions/checkout@v4
     
@@ -22,4 +29,6 @@ jobs:
       uses: gradle/gradle-build-action@v2
       
     - name: Build with Gradle
-      run: ./gradlew build
+      run: |
+        chmod +x gradlew
+        ./gradlew build

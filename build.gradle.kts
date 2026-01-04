@@ -54,10 +54,26 @@ kotlin {
         val iosArm64Main by getting { dependsOn(iosMain) }
         val iosSimulatorArm64Main by getting { dependsOn(iosMain) }
 
-        val watchosMain by creating { dependsOn(commonMain) }
+        val iosTest by creating { dependsOn(commonTest) }
+        val iosX64Test by getting { dependsOn(iosTest) }
+        val iosArm64Test by getting { dependsOn(iosTest) }
+        val iosSimulatorArm64Test by getting { dependsOn(iosTest) }
+
+        val watchosMain by creating { 
+            dependsOn(commonMain)
+            dependsOn(iosMain) // Share Apple/Keychain implementation
+        }
         val watchosArm64Main by getting { dependsOn(watchosMain) }
         val watchosX64Main by getting { dependsOn(watchosMain) }
         val watchosSimulatorArm64Main by getting { dependsOn(watchosMain) }
+
+        val watchosTest by creating { 
+            dependsOn(commonTest)
+            dependsOn(iosTest) 
+        }
+        val watchosArm64Test by getting { dependsOn(watchosTest) }
+        val watchosX64Test by getting { dependsOn(watchosTest) }
+        val watchosSimulatorArm64Test by getting { dependsOn(watchosTest) }
 
         iosMain.dependencies {
             // Keychain access usually requires native interop or a wrapper. 

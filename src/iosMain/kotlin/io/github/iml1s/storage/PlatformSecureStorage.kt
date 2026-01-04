@@ -1,8 +1,10 @@
+@file:OptIn(ExperimentalForeignApi::class)
 package io.github.iml1s.storage
 
 import kotlinx.cinterop.*
 import platform.Foundation.*
 import platform.Security.*
+import platform.CoreFoundation.*
 import platform.darwin.NSObject
 
 /**
@@ -12,68 +14,70 @@ actual class PlatformContext
 
 /**
  * iOS implementation of SecureStorage using Keychain Services.
+ * Uses manual CFDictionary construction to avoid ClassCastException and ensure compatibility.
  */
 actual class PlatformSecureStorage actual constructor(platformContext: PlatformContext) : SecureStorage {
 
     override suspend fun put(key: String, value: String) {
-        val query = createQuery(key)
-        
-        // Convert string to NSData
-        val data = (value as NSString).dataUsingEncoding(NSUTF8StringEncoding)
-        
-        // Add data to query attributes
-        query[kSecValueData as String] = data!!
-
-        // Attempt to add item
-        val status = SecItemAdd(query as CFDictionaryRef, null)
-        
-        if (status == errSecDuplicateItem) {
-            // Item already exists, update it
-            val updateQuery = createQuery(key)
-            val attributesToUpdate = mutableMapOf<Any?, Any?>()
-            attributesToUpdate[kSecValueData as String] = data
+        memScoped {
+            val data = NSString.create(string = value).dataUsingEncoding(NSUTF8StringEncoding)!!
             
-            SecItemUpdate(updateQuery as CFDictionaryRef, attributesToUpdate as CFDictionaryRef)
+            val query = CFDictionaryCreateMutable(null, 4, null, null)
+            CFDictionaryAddValue(query, kSecClass, kSecClassGenericPassword)
+            CFDictionaryAddValue(query, kSecAttrAccount, CFBridgingRetain(NSString.create(string = key)))
+            CFDictionaryAddValue(query, kSecAttrAccessible, kSecAttrAccessibleAfterFirstUnlock)
+            CFDictionaryAddValue(query, kSecValueData, CFBridgingRetain(data))
+
+            val status = SecItemAdd(query?.reinterpret(), null)
+            // println("DEBUG: SecItemAdd status=$status")
+            
+            if (status == errSecDuplicateItem) {
+                val updateQuery = CFDictionaryCreateMutable(null, 2, null, null)
+                CFDictionaryAddValue(updateQuery, kSecClass, kSecClassGenericPassword)
+                CFDictionaryAddValue(updateQuery, kSecAttrAccount, CFBridgingRetain(NSString.create(string = key)))
+
+                val attributesToUpdate = CFDictionaryCreateMutable(null, 1, null, null)
+                CFDictionaryAddValue(attributesToUpdate, kSecValueData, CFBridgingRetain(data))
+
+                SecItemUpdate(updateQuery?.reinterpret(), attributesToUpdate?.reinterpret())
+            }
         }
     }
 
-    override suspend fun get(key: String): String? {
-        val query = createQuery(key)
-        query[kSecReturnData as String] = true
-        query[kSecMatchLimit as String] = kSecMatchLimitOne
+    override suspend fun get(key: String): String? = memScoped {
+        val query = CFDictionaryCreateMutable(null, 4, null, null)
+        CFDictionaryAddValue(query, kSecClass, kSecClassGenericPassword)
+        CFDictionaryAddValue(query, kSecAttrAccount, CFBridgingRetain(NSString.create(string = key)))
+        CFDictionaryAddValue(query, kSecReturnData, kCFBooleanTrue)
+        CFDictionaryAddValue(query, kSecMatchLimit, kSecMatchLimitOne)
 
-        val result = memScoped {
-            val resultRef = alloc<CFTypeRefVar>()
-            val status = SecItemCopyMatching(query as CFDictionaryRef, resultRef.ptr)
-            if (status == errSecSuccess) {
-                val data = resultRef.value?.let { ObjCObjectVar<NSData>(it.reinterpret()).value }
-                // Convert NSData to String
-                val string = NSString.create(data!!, NSUTF8StringEncoding) as String?
-                return@memScoped string
-            }
-            return@memScoped null
+        val resultRef = alloc<CFTypeRefVar>()
+        val status = SecItemCopyMatching(query?.reinterpret(), resultRef.ptr)
+        
+        if (status == errSecSuccess) {
+            val data = resultRef.value?.let { CFBridgingRelease(it) } as? NSData
+            data?.let { 
+                NSString.create(data = it, encoding = NSUTF8StringEncoding) 
+            } as String?
+        } else {
+            null
         }
-        return result
     }
 
     override suspend fun delete(key: String) {
-        val query = createQuery(key)
-        SecItemDelete(query as CFDictionaryRef)
+        memScoped {
+            val query = CFDictionaryCreateMutable(null, 2, null, null)
+            CFDictionaryAddValue(query, kSecClass, kSecClassGenericPassword)
+            CFDictionaryAddValue(query, kSecAttrAccount, CFBridgingRetain(NSString.create(string = key)))
+            SecItemDelete(query?.reinterpret())
+        }
     }
 
     override suspend fun clear() {
-        // Clear all items for this app class
-        val query = mutableMapOf<Any?, Any?>()
-        query[kSecClass as String] = kSecClassGenericPassword
-        SecItemDelete(query as CFDictionaryRef)
-    }
-
-    private fun createQuery(key: String): MutableMap<Any?, Any?> {
-        val query = mutableMapOf<Any?, Any?>()
-        query[kSecClass as String] = kSecClassGenericPassword
-        query[kSecAttrAccount as String] = key
-        // Ensure we only access items we created or have access to
-        query[kSecAttrService as String] = "io.github.iml1s.wallet" 
-        return query
+        memScoped {
+            val query = CFDictionaryCreateMutable(null, 1, null, null)
+            CFDictionaryAddValue(query, kSecClass, kSecClassGenericPassword)
+            SecItemDelete(query?.reinterpret())
+        }
     }
 }

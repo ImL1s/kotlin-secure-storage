@@ -1,0 +1,64 @@
+Starting a Gradle Daemon, 14 stopped Daemons could not be reused, use --status for details
+
+> Configure project :
+w: The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64, iosX64, watchosArm64, watchosSimulatorArm64, watchosX64
+To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: The Default Kotlin Hierarchy Template was not applied to 'root project 'kotlin-secure-storage'':
+Explicit .dependsOn() edges were configured for the following source sets:
+[iosArm64Main, iosArm64Test, iosMain, iosSimulatorArm64Main, iosSimulatorArm64Test, iosTest, iosX64Main, iosX64Test, watchosArm64Main, watchosArm64Test, watchosMain, watchosSimulatorArm64Main, watchosSimulatorArm64Test, watchosTest, watchosX64Main, watchosX64Test]
+
+Consider removing dependsOn-calls or disabling the default template by adding
+    'kotlin.mpp.applyDefaultHierarchyTemplate=false'
+to your gradle.properties
+
+Learn more about hierarchy templates: https://kotl.in/hierarchy-template
+
+WARNING: We recommend using a newer Android Gradle plugin to use compileSdk = 35
+
+This Android Gradle plugin (8.5.2) was tested up to compileSdk = 34.
+
+You are strongly encouraged to update your project to use a newer
+Android Gradle plugin that has been tested with compileSdk = 35.
+
+If you are already using the latest version of the Android Gradle plugin,
+you may need to wait until a newer version with support for compileSdk = 35 is available.
+
+For more information refer to the compatibility table:
+https://d.android.com/r/tools/api-level-support
+
+To suppress this warning, add/update
+    android.suppressUnsupportedCompileSdk=35
+to this project's gradle.properties.
+
+> Task :checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :transformCommonMainDependenciesMetadata FAILED
+
+[Incubating] Problems report is available at: file:///D:/OtherProject/mine/crypto/kotlin-secure-storage/build/reports/problems/problems-report.html
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':transformCommonMainDependenciesMetadata'.
+> Could not resolve all dependencies for configuration ':commonMainResolvableDependenciesMetadata'.
+   > Configuration `:allSourceSetsCompileDependenciesMetadata` contains AndroidX dependencies, but the `android.useAndroidX` property is not enabled, which may cause runtime issues.
+     Set `android.useAndroidX=true` in the `gradle.properties` file and retry.
+     The following AndroidX dependencies are detected:
+     :allSourceSetsCompileDependenciesMetadata -> androidx.security:security-crypto:1.0.0
+     :allSourceSetsCompileDependenciesMetadata -> androidx.security:security-crypto:1.0.0 -> androidx.annotation:annotation:1.1.0
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+Deprecated Gradle features were used in this build, making it incompatible with Gradle 9.0.
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/8.13/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+BUILD FAILED in 17s
+1 actionable task: 1 executed

@@ -1,0 +1,105 @@
+
+> Configure project :
+w: The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64, iosX64, watchosArm64, watchosSimulatorArm64, watchosX64
+To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: The Default Kotlin Hierarchy Template was not applied to 'root project 'kotlin-secure-storage'':
+Explicit .dependsOn() edges were configured for the following source sets:
+[iosArm64Main, iosArm64Test, iosMain, iosSimulatorArm64Main, iosSimulatorArm64Test, iosTest, iosX64Main, iosX64Test, watchosArm64Main, watchosArm64Test, watchosMain, watchosSimulatorArm64Main, watchosSimulatorArm64Test, watchosTest, watchosX64Main, watchosX64Test]
+
+Consider removing dependsOn-calls or disabling the default template by adding
+    'kotlin.mpp.applyDefaultHierarchyTemplate=false'
+to your gradle.properties
+
+Learn more about hierarchy templates: https://kotl.in/hierarchy-template
+
+
+> Task :cleanIosSimulatorArm64Test UP-TO-DATE
+> Task :cleanIosX64Test UP-TO-DATE
+> Task :cleanJvmTest
+> Task :cleanWatchosSimulatorArm64Test UP-TO-DATE
+> Task :cleanWatchosX64Test UP-TO-DATE
+> Task :cleanAllTests
+> Task :clean
+> Task :checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :transformCommonMainDependenciesMetadata
+> Task :generateProjectStructureMetadata
+> Task :metadataCommonMainProcessResources NO-SOURCE
+> Task :compileKotlinIosArm64 SKIPPED
+> Task :compileKotlinIosSimulatorArm64 SKIPPED
+> Task :compileKotlinIosX64 SKIPPED
+> Task :compileKotlinWatchosArm64 SKIPPED
+> Task :compileKotlinWatchosSimulatorArm64 SKIPPED
+> Task :compileKotlinWatchosX64 SKIPPED
+> Task :iosArm64ProcessResources NO-SOURCE
+> Task :iosArm64MainKlibrary UP-TO-DATE
+> Task :compileTestKotlinIosArm64 SKIPPED
+> Task :iosSimulatorArm64ProcessResources NO-SOURCE
+> Task :iosSimulatorArm64MainKlibrary UP-TO-DATE
+> Task :compileTestKotlinIosSimulatorArm64 SKIPPED
+> Task :iosX64ProcessResources NO-SOURCE
+> Task :iosX64MainKlibrary UP-TO-DATE
+> Task :compileTestKotlinIosX64 SKIPPED
+> Task :watchosArm64ProcessResources NO-SOURCE
+> Task :watchosArm64MainKlibrary UP-TO-DATE
+> Task :compileTestKotlinWatchosArm64 SKIPPED
+> Task :watchosSimulatorArm64ProcessResources NO-SOURCE
+> Task :watchosSimulatorArm64MainKlibrary UP-TO-DATE
+> Task :compileTestKotlinWatchosSimulatorArm64 SKIPPED
+> Task :watchosX64ProcessResources NO-SOURCE
+> Task :watchosX64MainKlibrary UP-TO-DATE
+> Task :compileTestKotlinWatchosX64 SKIPPED
+> Task :metadataIosMainProcessResources NO-SOURCE
+> Task :metadataWatchosMainProcessResources NO-SOURCE
+> Task :jvmProcessResources NO-SOURCE
+> Task :linkDebugFrameworkIosArm64 SKIPPED
+> Task :linkDebugFrameworkIosX64 SKIPPED
+> Task :linkDebugFrameworkIosFat SKIPPED
+> Task :linkDebugFrameworkIosSimulatorArm64 SKIPPED
+> Task :linkDebugFrameworkWatchosArm64 SKIPPED
+> Task :linkDebugFrameworkWatchosX64 SKIPPED
+> Task :linkDebugFrameworkWatchosFat SKIPPED
+> Task :linkDebugFrameworkWatchosSimulatorArm64 SKIPPED
+> Task :linkReleaseFrameworkIosArm64 SKIPPED
+> Task :linkReleaseFrameworkIosX64 SKIPPED
+> Task :linkReleaseFrameworkIosFat SKIPPED
+> Task :linkReleaseFrameworkIosSimulatorArm64 SKIPPED
+> Task :linkReleaseFrameworkWatchosArm64 SKIPPED
+> Task :linkReleaseFrameworkWatchosX64 SKIPPED
+> Task :linkReleaseFrameworkWatchosFat SKIPPED
+> Task :linkReleaseFrameworkWatchosSimulatorArm64 SKIPPED
+> Task :linkDebugTestIosSimulatorArm64 SKIPPED
+> Task :iosSimulatorArm64Test SKIPPED
+> Task :linkDebugTestIosX64 SKIPPED
+> Task :iosX64Test SKIPPED
+> Task :jvmTestProcessResources NO-SOURCE
+> Task :linkDebugTestWatchosSimulatorArm64 SKIPPED
+> Task :watchosSimulatorArm64Test SKIPPED
+> Task :linkDebugTestWatchosX64 SKIPPED
+> Task :watchosX64Test SKIPPED
+
+> Task :compileCommonMainKotlinMetadata FAILED
+e: file:///D:/OtherProject/mine/crypto/kotlin-secure-storage/src/commonMain/kotlin/io/github/iml1s/storage/SecureStorage.kt:13:8 Class 'PlatformSecureStorage' is not abstract and does not implement abstract member 'put'.
+
+> Task :compileKotlinJvm
+w: file:///D:/OtherProject/mine/crypto/kotlin-secure-storage/src/commonMain/kotlin/io/github/iml1s/storage/SecureStorage.kt:4:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. You can use -Xexpect-actual-classes flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///D:/OtherProject/mine/crypto/kotlin-secure-storage/src/commonMain/kotlin/io/github/iml1s/storage/SecureStorage.kt:13:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. You can use -Xexpect-actual-classes flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///D:/OtherProject/mine/crypto/kotlin-secure-storage/src/jvmMain/kotlin/io/github/iml1s/storage/PlatformSecureStorage.kt:25:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. You can use -Xexpect-actual-classes flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+w: file:///D:/OtherProject/mine/crypto/kotlin-secure-storage/src/jvmMain/kotlin/io/github/iml1s/storage/PlatformSecureStorage.kt:31:1 'expect'/'actual' classes (including interfaces, objects, annotations, enums, and 'actual' typealiases) are in Beta. You can use -Xexpect-actual-classes flag to suppress this warning. Also see: https://youtrack.jetbrains.com/issue/KT-61573
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':compileCommonMainKotlinMetadata'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 2s
+10 actionable tasks: 6 executed, 4 up-to-date

@@ -1,0 +1,32 @@
+
+> Configure project :
+Build was configured to prefer settings repositories over project repositories but repository 'Google' was added by build file 'build.gradle.kts'
+Build was configured to prefer settings repositories over project repositories but repository 'MavenRepo' was added by build file 'build.gradle.kts'
+w: The following Kotlin/Native targets cannot be built on this machine and are disabled:
+iosArm64, iosSimulatorArm64, iosX64, watchosArm64, watchosSimulatorArm64, watchosX64
+To hide this message, add 'kotlin.native.ignoreDisabledTargets=true' to the Gradle properties.
+
+w: The Default Kotlin Hierarchy Template was not applied to 'root project 'kotlin-secure-storage'':
+Explicit .dependsOn() edges were configured for the following source sets:
+[iosArm64Main, iosArm64Test, iosMain, iosSimulatorArm64Main, iosSimulatorArm64Test, iosTest, iosX64Main, iosX64Test, watchosArm64Main, watchosArm64Test, watchosMain, watchosSimulatorArm64Main, watchosSimulatorArm64Test, watchosTest, watchosX64Main, watchosX64Test]
+
+Consider removing dependsOn-calls or disabling the default template by adding
+    'kotlin.mpp.applyDefaultHierarchyTemplate=false'
+to your gradle.properties
+
+Learn more about hierarchy templates: https://kotl.in/hierarchy-template
+
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Could not determine the dependencies of task ':extractDebugAnnotations'.
+> SDK location not found. Define a valid SDK location with an ANDROID_HOME environment variable or by setting the sdk.dir path in your project's local properties file at 'D:\OtherProject\mine\crypto\kotlin-secure-storage\local.properties'.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 1s

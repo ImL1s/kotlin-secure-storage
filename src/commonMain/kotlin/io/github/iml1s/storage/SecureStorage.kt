@@ -10,4 +10,5 @@ interface SecureStorage {
     suspend fun clear()
 }
 
-expect class PlatformSecureStorage(platformContext: PlatformContext) : SecureStorage
+// Expect a factory function instead of expect class extending interface
+expect fun createSecureStorage(platformContext: PlatformContext): SecureStorage

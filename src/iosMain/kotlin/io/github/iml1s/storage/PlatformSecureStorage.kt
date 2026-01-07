@@ -16,7 +16,7 @@ actual class PlatformContext
  * iOS implementation of SecureStorage using Keychain Services.
  * Uses manual CFDictionary construction to avoid ClassCastException and ensure compatibility.
  */
-actual class PlatformSecureStorage actual constructor(platformContext: PlatformContext) : SecureStorage {
+class IosSecureStorage(platformContext: PlatformContext) : SecureStorage {
 
     override suspend fun put(key: String, value: String) {
         memScoped {
@@ -81,3 +81,6 @@ actual class PlatformSecureStorage actual constructor(platformContext: PlatformC
         }
     }
 }
+
+actual fun createSecureStorage(platformContext: PlatformContext): SecureStorage = 
+    IosSecureStorage(platformContext)

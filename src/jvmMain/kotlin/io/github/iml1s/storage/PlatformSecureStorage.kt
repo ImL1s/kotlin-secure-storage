@@ -28,7 +28,7 @@ actual typealias PlatformContext = Any
  * JVM 實作：使用 AES-GCM 加密檔案進行持久化存儲。
  * 密鑰衍生自系統屬性與環境變數，避免直接明文存儲資料。
  */
-actual class PlatformSecureStorage actual constructor(platformContext: PlatformContext) : SecureStorage {
+class JvmSecureStorage(platformContext: PlatformContext) : SecureStorage {
     private val storageDir = File(System.getProperty("user.home"), ".kotlin-crypto").apply { 
         if (!exists()) mkdirs() 
     }
@@ -119,3 +119,6 @@ actual class PlatformSecureStorage actual constructor(platformContext: PlatformC
         storageFile.writeBytes(byteBuffer.array())
     }
 }
+
+actual fun createSecureStorage(platformContext: PlatformContext): SecureStorage = 
+    JvmSecureStorage(platformContext)

@@ -1,3 +1,7 @@
+# ⚠️ Deprecated
+
+> This project has been moved into [web3-kmp](https://github.com/ImL1s/web3-kmp). Please check the new repository for the latest updates.
+
 # kotlin-secure-storage
 
 <p align="center">
@@ -68,3 +72,4 @@ storage.delete("master_key")
   - Data stored in `~/.kotlin-crypto/secure_storage.dat`.
   - Encryption key auto-generated in `~/.kotlin-crypto/.key` (protected by OS file permissions).
 - **Data Cleanup**: Always clear sensitive variables from memory after use when possible.
+
